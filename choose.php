@@ -76,6 +76,9 @@
 				<h2 class="mg-md h2-style animated fadeIn" data-appear-anim-style="fadeIn">
 					Student Number
 				</h2>
+                <span id="negativeNotice">
+
+                    </span>
 				<div class="form-group">
 					<input id="studentNumber" class="form-control d-block animated zoomIn" placeholder="Student Number" maxlength="20" required data-validation-required-message="Student Number Required" data-appear-anim-style="zoomIn" />
 					<div class="container-div-style">
@@ -109,7 +112,14 @@
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 if (this.responseText=="TRUE") {
-                    location.href = "choose-classes."
+                    location.href = "choose-classes.php";
+                } else {
+                    document.getElementById("negativeNotice").innerHTML = "<div class=\"alert alert-danger\" id=\"neg-alert\">\n" +
+                        "                    <a href=\"#\" class=\"btn btn-d btn-lg btn-style-none float-right\" data-dismiss=\"alert\" aria-label=\"Close\"><span class=\"fa fa-close close\"></span></a>\n" +
+                        "                    <p class=\"mb-0\" id=\"neg-alert-text\">\n" +
+                        "                        Student number doesn't exists or wrong student number format.\n" +
+                        "                    </p>\n" +
+                        "                </div>"
                 }
             }
         };

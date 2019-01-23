@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include_once("classJoiner.php");
     if (!empty($_POST['studentNum'])) {
         $studentNum = $_POST['studentNum'];
