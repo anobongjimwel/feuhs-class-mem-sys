@@ -1,3 +1,6 @@
+<?php
+    session_start();
+    ?>
 <!doctype html>
 <html>
 <head>
@@ -74,9 +77,10 @@
 					Student Number
 				</h2>
 				<div class="form-group">
-					<input class="form-control d-block animated zoomIn" placeholder="Student Number" maxlength="20" required data-validation-required-message="Student Number Required" data-appear-anim-style="zoomIn" />
+					<input id="studentNumber" class="form-control d-block animated zoomIn" placeholder="Student Number" maxlength="20" required data-validation-required-message="Student Number Required" data-appear-anim-style="zoomIn" />
 					<div class="container-div-style">
-					</div><a href="choose-classes.html" class="btn btn-glossy btn-green-ryb animated pulse float-lg-right float-md-right float-sm-right float-right" data-appear-anim-style="pulse"><span class="et-icon-target icon-spacer icon-white"></span>Log In</a>
+					</div>
+                    <input type="button" onclick="checkIfStudentNumberValid()" class="btn btn-glossy btn-green-ryb animated pulse float-lg-right float-md-right float-sm-right float-right" data-appear-anim-style="pulse" value="Log In"><span class="et-icon-target icon-spacer icon-white"></span></input>
 				</div>
 			</div>
 		</div>
@@ -97,6 +101,23 @@
 <!-- Preloader -->
 <div id="page-loading-blocs-notifaction" class="page-preloader"></div>
 <!-- Preloader END -->
+
+<script>
+    function checkIfStudentNumberValid() {
+        var studentNumInput = document.getElementById("studentNumber");
+        var xmlhttp = new XMLHttpRequest;
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (this.responseText=="TRUE") {
+                    location.href = "choose-classes."
+                }
+            }
+        };
+        xmlhttp.open("POST","php/checkStudent.php",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("studentNum="+studentNumInput.value);
+    }
+</script>
 
 </body>
 </html>
