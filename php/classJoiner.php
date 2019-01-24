@@ -83,13 +83,13 @@ HAVING currCount < maxCount");
             }
         }
 
-        public function getSchedulesAvailableForClass($classid) {
+        public function getSchedulesAvailableForClass($classid, $scheduleName) {
             if (!empty($classid)) {
-                $query = $this->pdo->prepare("SELECT schedules.schedule, schedules.scheduleid, COUNT(picks.scheduleid) AS currCount, 40 as maxCount
+                $query = $this->pdo->prepare("SELECT schedules.classid, schedules.schedule, schedules.scheduleid, COUNT(picks.scheduleid) AS currCount, 40 as maxCount
 FROM schedules
   LEFT JOIN picks ON schedules.scheduleId = picks.scheduleid
 GROUP BY schedules.scheduleid
-HAVING schedules.classId = '".$classid."' AND currCount < maxCount");
+HAVING schedules.classId = '".$classid."' AND currCount < maxCount AND schedules.schedule <> '".$scheduleName."'");
                 $query->execute();
                 if ($query->rowCount()>0) {
                     return $query->fetchAll(PDO::FETCH_ASSOC);

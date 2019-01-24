@@ -113,7 +113,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<select id="firstScheduleId" class="form-control animDelay06 animated zoomIn" data-appear-anim-style="zoomIn" name="select_831">
+						<select id="firstScheduleId" onChange="updateSecondClassSchedules(document.getElementById('secondClassId').value, document.getElementById('firstScheduleId').options[document.getElementById('firstScheduleId').selectedIndex].text)" class="form-control animDelay06 animated zoomIn" data-appear-anim-style="zoomIn" name="select_831">
                             <option>---</option>
 						</select>
 					</div>
@@ -121,7 +121,7 @@
 						Second Class
 					</h6>
 					<div class="container-div-0-style">
-						<select id="secondClassId" onChange="checkFirstClass()" class="form-control animated puffIn animDelay1" data-appear-anim-style="puffIn" name="select_959">
+						<select id="secondClassId" onChange="updateSecondClassSchedules(this.value, document.getElementById('firstScheduleId').options[document.getElementById('firstScheduleId').selectedIndex].text)" class="form-control animated puffIn animDelay1" data-appear-anim-style="puffIn" name="select_959">
                             <option>---</option>
                             <?php
                             foreach ($cJ->getClassesAvailable() as $class) {
@@ -168,11 +168,14 @@
     function checkSecondClass() {
         var firstClassId = document.getElementById("firstClassId");
         var secondClassId = document.getElementById("secondClassId");
+        var firstScheduleId = document.getElementById("firstScheduleId");
+        var secondScheduleId = document.getElementById("secondScheduleId");
         var xmlhttp = new XMLHttpRequest;
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 secondClassId.innerHTML = this.response;
-                updateSecondClassSchedules(firstClassId.value);
+                updateFirstClassSchedules(firstClassId.value, secondScheduleId.options[firstScheduleId.selectedIndex].text);
+                updateSecondClassSchedules(secondClassId.value);
             }
         };
         xmlhttp.open("POST","php/getClassesAvailableForDropDown.php",true);
@@ -180,7 +183,7 @@
         xmlhttp.send("classId="+firstClassId.value);
     }
 
-    function updateSecondClassSchedules(classid) {
+    function updateSecondClassSchedules(classid, scheduleName) {
         var secondScheduleId = document.getElementById("secondScheduleId");
         var xmlhttp = new XMLHttpRequest;
         xmlhttp.onreadystatechange = function () {
@@ -190,7 +193,20 @@
         };
         xmlhttp.open("POST","php/getSchedulesForDropDown.php",true);
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        xmlhttp.send("classId="+classid);
+        xmlhttp.send("classId="+classid+"&scheduleName="+scheduleName);
+    }
+
+    function updateFirstClassSchedules(classid) {
+        var firstScheduleId = document.getElementById("firstScheduleId");
+        var xmlhttp = new XMLHttpRequest;
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                firstScheduleId.innerHTML = this.response;
+            }
+        };
+        xmlhttp.open("POST","php/getSchedulesForDropDown.php",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("classId="+classid+"&scheduleName=---");
     }
 </script>
 </body>
