@@ -98,4 +98,53 @@ HAVING schedules.classId = '".$classid."' AND currCount < maxCount AND schedules
                 }
             }
         }
+
+        public function isScheduleAvailable($classid, $scheduleid) {
+            if (!empty($classid) && !empty($scheduleid)) {
+                //check if class exists
+                $queryIfExists = $this->pdo->query("SELECT * FROM schedules WHERE classId = '".$classid."' AND scheduleId = '".$scheduleid."'");
+                if ($queryIfExists->rowCount()==0) {
+                    return "Inexistent";
+                } else {
+                    $queryIfFull = $this->pdo->query("SELECT * FROM picks WHERE classId = '".$classid."' AND scheduleId = '".$scheduleid."'");
+                    if ($queryIfFull->rowCount()<40) {
+                        return "True";
+                    } else {
+                        return "False";
+                    }
+                }
+            }
+        }
+
+        public function isScheduledPickedAlready($classid, $scheduleid, $studentnumber) {
+            if (!empty($classid) && !empty($scheduleid) && !empty($studentnumber)) {
+                $query = $this->pdo->query("SELECT * FROM picks WHERE classId = '" . $classid . "' AND scheduleId = '".$scheduleid."' AND classId = '".$classid."'");
+                if ($query->rowCount()==0) {
+                    return FALSE;
+                } else {
+                    return TRUE;
+                }
+    }
+        }
+
+        public function appendSchedulePick($classid, $scheduleid, $studentnumber) {
+            $append = $this->pdo->prepare("INSERT INTO picks (studentNo, classId, scheduleid) VALUES (:stno, :clid, :scid)");
+            $append->bindParam(':stno', $studentnumber);
+            $append->bindParam('clid', $classid);
+            $append->bindParam(':scid', $scheduleid);
+            if ($append->execute()) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+
+        public function hasPicked($studentnum) {
+            $query = $this->pdo->query("SELECT * FROM picks WHERE studentNo = '".$studentnum."'");
+            if ($query->rowCount()>0) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
     }

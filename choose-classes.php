@@ -93,10 +93,13 @@
 				</p>
 			</div>
 			<div class="scroll-fx-in-fade order-lg-1 offset-md-0 offset-lg-1 col-lg-8">
-				<form id="frm-classes" novalidate data-success-msg="Your message has been sent." data-fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!" action="custom-action-url" method="POST">
+				<form id="frm-classes">
 					<h2 class="mg-md">
 						Choose Classes
 					</h2>
+                    <span id="negativeNotice">
+
+                    </span>
 					<h6 class="mg-md animated fadeIn animDelay02" data-appear-anim-style="fadeIn">
 						FIrst Class
 					</h6>
@@ -140,7 +143,7 @@
 				</form>
 				<div class="form-group container-div-bloc-3-style">
 				</div>
-				<button class="btn btn-glossy btn-green-ryb float-lg-right float-md-right float-sm-right float-right animDelay2 animated rollIn bloc-button" data-appear-anim-style="rollIn" type="submit" id="submit">
+				<button onClick="submitValidation()" class="btn btn-glossy btn-green-ryb float-lg-right float-md-right float-sm-right float-right animDelay2 animated rollIn bloc-button" data-appear-anim-style="rollIn" type="submit" id="submit">
 					<span class="et-icon-circle-compass icon-spacer icon-white"></span>Submit
 				</button>
 			</div>
@@ -208,6 +211,47 @@
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         xmlhttp.send("classId="+classid+"&scheduleName=---");
     }
+
+    function submitValidation() {
+        var firstScheduleId = document.getElementById("firstScheduleId");
+        var secondScheduleId = document.getElementById("secondScheduleId");
+        var firstClassId = document.getElementById("firstClassId");
+        var secondClassId = document.getElementById("secondClassId");
+        var negativeNotice = document.getElementById("negativeNotice");
+        if (firstClassId.value=="---" ||
+            secondClassId.value=="---" ||
+            secondScheduleId.value=="---" ||
+            firstScheduleId.value=="---") {
+            negativeNotice.innerHTML = "<div class=\"alert alert-danger\" id=\"neg-alert\">\n" +
+                "                    <a href=\"#\" class=\"btn btn-d btn-lg btn-style-none float-right\" data-dismiss=\"alert\" aria-label=\"Close\"><span class=\"fa fa-close close\"></span></a>\n" +
+                "                    <p class=\"mb-0\" id=\"neg-alert-text\">\n" +
+                "                        One of the fields are not supplied with correct values. Please try again and fill in all the fieds.\n" +
+                "                    </p>\n" +
+                "                </div>"
+        } else {
+            var xmlhttp = new XMLHttpRequest;
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText=="TRUE") {
+                        location.href = 'thank-you.php';
+                    } else {
+                        negativeNotice.innerHTML = "<div class=\"alert alert-danger\" id=\"neg-alert\">\n" +
+                            "                    <a href=\"#\" class=\"btn btn-d btn-lg btn-style-none float-right\" data-dismiss=\"alert\" aria-label=\"Close\"><span class=\"fa fa-close close\"></span></a>\n" +
+                            "                    <p class=\"mb-0\" id=\"neg-alert-text\">\n" + this.responseText +
+                            "                    </p>\n" +
+                            "                </div>"
+                    }
+                }
+            };
+            xmlhttp.open("POST","php/secondValidateSubmission.php",true);
+            xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xmlhttp.send("stno="+"<?php echo $_SESSION['studentNum']?>"+
+                "&c1="+firstClassId.value+
+                "&s1="+firstScheduleId.value+
+                "&c2="+secondClassId.value+
+                "&s2="+secondScheduleId.value);
+        }
+    };
 </script>
 </body>
 </html>

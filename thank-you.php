@@ -88,15 +88,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="container fill-bloc-bottom-edge">
-		<div class="row">
-			<div class="col-12">
-				<div class="text-center">
-					<a href="#" data-scroll-speed="1000" onclick="scrollToTarget('0',this)"><span class="fa fa-angle-down icon-md animated bounce animDelay08"></span></a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 <!-- bloc-4 END -->
 
