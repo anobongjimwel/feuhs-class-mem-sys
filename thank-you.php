@@ -35,30 +35,30 @@
 	<div class="container ">
 		<div class="row">
 			<div class="col">
-				<nav class="navbar row navbar-expand-md navbar-dark">
-					<a class="navbar-brand" href="index.html"><img src="https://shs.feu.edu.ph/img/logo.png" alt="logo" width="55" height="55" /></a>
-					<button id="nav-toggle" type="button" class="ml-auto ui-navbar-toggler navbar-toggler border-0 p-0" data-toggle="collapse" data-target=".navbar-1" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse navbar-1">
-						<ul class="site-navigation nav navbar-nav ml-auto">
-							<li class="nav-item">
-								<a href="index.html" class="nav-link">Home</a>
-							</li>
-							<li class="nav-item">
-								<a href="choose.html" class="nav-link">Choose</a>
-							</li>
-							<li class="nav-item">
-							</li>
-							<li class="nav-item">
-								<a href="http://m.manage.feuhs.edu" class="nav-link a-btn">Manage</a>
-							</li>
-							<li class="nav-item">
-								<a href="check.html" class="a-btn nav-link">Check</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
+                <nav class="navbar row navbar-expand-md navbar-dark">
+                    <a class="navbar-brand" href="index.php"><img src="https://shs.feu.edu.ph/img/logo.png" alt="logo" width="55" height="55" /></a>
+                    <button id="nav-toggle" type="button" class="ml-auto ui-navbar-toggler navbar-toggler border-0 p-0" data-toggle="collapse" data-target=".navbar-1" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse navbar-1">
+                        <ul class="site-navigation nav navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a href="index.php" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="choose.php" class="nav-link">Choose</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="check.php" class="nav-link">Check</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index.php" class="nav-link">Manage</a>
+                            </li>
+                            <li class="nav-item">
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 			</div>
 		</div>
 	</div>
