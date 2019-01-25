@@ -19,7 +19,7 @@
         </style>
     </head>
     <body class="semiletter landscape">
-    <section class="sheet padding-10mm" style="background-image: url('img/texture-geometry-shapes.png'); background-color: rgb(233,255,233)">
+    <section class="sheet padding-10mm" style="border: 10px solid white; background-size: cover; background-image: url('img/texture-geometry-shapes.png'); background-color: rgb(233,255,233)">
 
         <!-- Write HTML just like a web page -->
         <div style="display: inline-block; text-align: center; width: 100%">

@@ -9,6 +9,10 @@
 
     include_once "php/classJoiner.php";
     $cJ = new ClassJoiner;
+
+    if ($cJ->hasPicked($studentNum)) {
+        header("Location: check-class-details.php");
+    }
 ?>
 <!doctype html>
 <html>
@@ -84,7 +88,12 @@
 	<div class="container bloc-lg">
 		<div class="row no-gutters row-style">
 			<div class="col-lg-3 offset-lg-0">
-				<img src="img/lazyload-ph.png" data-src="img/placeholder-image.png" class="img-fluid mx-auto d-block lazyload" />
+                <?php if (file_exists("studentimg/".$studentNum.".jpg")) {
+                    echo "<img src=\"img/lazyload-ph.png\" data-src=\"studentimg/2000051532.jpg\" class=\"img-fluid img-style float-lg-right lazyload\" />";
+                } else {
+                    echo "<img src=\"img/lazyload-ph.png\" data-src=\"img/placeholder-img.png\" class=\"img-fluid img-style float-lg-right lazyload\" />";
+                }
+                ?>
 				<h4 class="mg-md">
 					Student Name
 				</h4>

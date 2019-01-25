@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+if (!empty($_SESSION['studentNum'])) {
+    $studentNum = $_SESSION['studentNum'];
+} else {
+    header("Location: choose.php");
+}
+
+include_once "php/classJoiner.php";
+$cJ = new ClassJoiner;
+
+if (!$cJ->hasPicked($studentNum)) {
+    header("Location: choose-classes.php");
+}
+?>
 <!doctype html>
 <html>
 <head>
@@ -7,20 +23,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?7230">
-	<link rel="stylesheet" type="text/css" href="style.css?9614">
-	<link rel="stylesheet" type="text/css" href="./css/animate.min.css?3473">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?6395">
+	<link rel="stylesheet" type="text/css" href="style.css?79">
+	<link rel="stylesheet" type="text/css" href="./css/animate.min.css?1553">
 	<link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/et-line.min.css">
 	
     
-	<script src="./js/jquery-3.3.1.min.js?2269"></script>
-	<script src="./js/bootstrap.bundle.min.js?5019"></script>
-	<script src="./js/blocs.min.js?7262"></script>
-	<script src="./js/jqBootstrapValidation.js"></script>
-	<script src="./js/formHandler.js?5073"></script>
+	<script src="./js/jquery-3.3.1.min.js?2486"></script>
+	<script src="./js/bootstrap.bundle.min.js?8167"></script>
+	<script src="./js/blocs.min.js?9855"></script>
 	<script src="./js/lazysizes.min.js" defer></script>
-    <title>Choose</title>
+    <title>Check Class Details</title>
 
     
 <!-- Analytics -->
@@ -56,7 +70,7 @@
 								<a href="http://m.manage.feuhs.edu" class="nav-link a-btn">Manage</a>
 							</li>
 							<li class="nav-item">
-								<a href="check.html" class="a-btn nav-link">Check</a>
+								<a href="check.php" class="a-btn nav-link">Check</a>
 							</li>
 						</ul>
 					</div>
@@ -67,35 +81,32 @@
 </div>
 <!-- bloc-0 END -->
 
-<!-- bloc-2 -->
-<div class="bloc l-bloc" id="bloc-2">
+<?php $schedules = $cJ->getPickedSchedules($_SESSION['studentNum'])?>
+<!-- bloc-6 -->
+<div class="bloc l-bloc" id="bloc-6">
 	<div class="container bloc-lg">
 		<div class="row">
-			<div class="offset-lg-1 col-lg-10 scroll-fx-in-fade">
-				<form id="frm-studentnum" novalidate data-success-msg="Your message has been sent." data-fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!" action="choose-classes.php" method="POST">
-					<h2 class="mg-md h2-style animated fadeIn" data-appear-anim-style="fadeIn">
-						Student Number
-					</h2>
-					<div class="form-group">
-						<div class="alert alert-danger" id="neg-alert">
-							<a href="#" class="btn btn-d btn-lg btn-style-none float-right" data-dismiss="alert" aria-label="Close"><span class="fa fa-close close"></span></a>
-							<p class="mb-0" id="neg-alert-text">
-								Yo! This is an alert
-							</p>
-						</div>
-						<input class="form-control d-block animated zoomIn" placeholder="Student Number" maxlength="20" required data-validation-required-message="Student Number Required" data-appear-anim-style="zoomIn" id="studentnum" name="input_1188" />
-						<div class="container-div-style">
-						</div>
-						<button class="btn btn-green-ryb animated pulse float-lg-right float-md-right float-sm-right float-right bloc-button" data-appear-anim-style="pulse" type="submit" id="submit">
-							<span class="et-icon-target icon-spacer icon-white"></span>Log In
-						</button>
-					</div>
-				</form>
+			<div class="col-md-6">
+                <?php if (file_exists("studentimg/".$studentNum.".jpg")) {
+                    echo "<img src=\"img/lazyload-ph.png\" data-src=\"studentimg/2000051532.jpg\" class=\"img-fluid img-style float-lg-right lazyload\" />";
+                } else {
+                    echo "<img src=\"img/lazyload-ph.png\" data-src=\"img/placeholder-img.png\" class=\"img-fluid img-style float-lg-right lazyload\" />";
+                }
+				?>
+			</div>
+			<div class="col-md-6">
+                <a href="index.php" style="text-decoration: none; color: blueviolet">< Back</a>
+				<h1 class="mg-md">
+                    <?php echo $cJ->getStudentInfo($cJ::STUDENT_NAME, $_SESSION['studentNum'])?>
+				</h1>
+				<p>
+					Student Number: <?php echo $cJ->getStudentInfo($cJ::STUDENT_NUMBER, $_SESSION['studentNum'])?> <br>Grade: <?php echo $cJ->getStudentInfo($cJ::STUDENT_GRADE, $_SESSION['studentNum'])?> <br>Strand: <?php echo $cJ->getStudentInfo($cJ::STUDENT_STRAND, $_SESSION['studentNum'])?> <br> <br>Class 1: <br><?php echo $schedules[0]['className'] ?> <br><?php echo $schedules[0]['schedule'] ?> <br> <br>Class 2: <br><?php echo $schedules[1]['className'] ?> <br><?php echo $schedules[1]['schedule'] ?>
+				</p>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- bloc-2 END -->
+<!-- bloc-6 END -->
 
 <!-- ScrollToTop Button -->
 <a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1',this)"><span class="fa fa-chevron-up"></span></a>
@@ -105,7 +116,7 @@
 </div>
 <!-- Main container END -->
     
-<script src="./js/scrollFX.js?9746"></script>
+
 
 <!-- Preloader -->
 <div id="page-loading-blocs-notifaction" class="page-preloader"></div>

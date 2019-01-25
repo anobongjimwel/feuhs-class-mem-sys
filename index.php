@@ -55,13 +55,11 @@
 							<li class="nav-item">
 								<a href="choose.php" class="a-btn nav-link">Choose</a>
 							</li>
+                            <li class="nav-item">
+                                <a href="http://m.manage.feuhs.edu" class="nav-link a-btn">Manage</a>
+                            </li>
 							<li class="nav-item">
-								<a href="index.php" class="nav-link a-btn">Check</a>
-							</li>
-							<li class="nav-item">
-								<a href="index.php" class="nav-link a-btn">Manage</a>
-							</li>
-							<li class="nav-item">
+								<a href="check.php" class="nav-link a-btn">Check</a>
 							</li>
 						</ul>
 					</div>
