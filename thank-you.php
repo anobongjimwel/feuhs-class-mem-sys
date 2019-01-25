@@ -76,6 +76,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
+                <h4 class="mg-md text-center" id="ctrLogout">
+                    60
+                </h4>
 				<h1 class="mg-md text-center">
 					Thank You!
 				</h1>
@@ -83,7 +86,7 @@
 					Your choices have been considered. You may print your reciept by clicking below and take a picture or just print it out. Please click proceed after. This page will close in 10 seconds.
 				</h3>
 				<div class="text-center">
-					<a href="index.html" class="btn btn-lg btn-wire">Print Reciept</a><a href="index.html" class="btn btn-lg btn-wire">Proceed</a>
+					<a href="print-receipt.php" target="_blank" class="btn btn-lg btn-wire">Print Reciept</a><a href="index.php" class="btn btn-lg btn-wire">Proceed</a>
 				</div>
 			</div>
 		</div>
@@ -104,6 +107,18 @@
 <!-- Preloader -->
 <div id="page-loading-blocs-notifaction" class="page-preloader"></div>
 <!-- Preloader END -->
+
+<script>
+    setInterval(function() {
+        var ctrLogout = document.getElementById("ctrLogout");
+        if (parseFloat(ctrLogout.innerText)>0) {
+            ctrLogout.innerText = (parseFloat(ctrLogout.innerText) - parseFloat(0.01)).toFixed(2)
+        }
+        else {
+            location.href = "index.php";
+        }
+    }, 10)
+</script>
 
 </body>
 </html>

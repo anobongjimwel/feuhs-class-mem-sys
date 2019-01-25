@@ -1,6 +1,10 @@
 <?php
     class classJoiner {
         private $username, $password, $destination, $pdo;
+        const STUDENT_NAME = 1;
+        const STUDENT_NUMBER = 2;
+        const STUDENT_GRADE = 3;
+        const STUDENT_STRAND = 4;
 
         public function __construct()
         {
@@ -147,4 +151,40 @@ HAVING schedules.classId = '".$classid."' AND currCount < maxCount AND schedules
                 return FALSE;
             }
         }
+
+        public function getStudentInfo($infoType, $studentNum) {
+            $query = $this->pdo->query("SELECT * FROM students WHERE studentNo = '".$studentNum."';");
+            if ($query->rowCount()!=0) {
+                $student = $query->fetch(PDO::FETCH_ASSOC);
+                if ($infoType == $this::STUDENT_NAME) {
+                    return $student['fullName'];
+                } else if ($infoType == $this::STUDENT_GRADE) {
+                    return $student['grade'];
+                } else if ($infoType == $this::STUDENT_STRAND) {
+                    return $student['strand'];
+                } else if ($infoType == $this::STUDENT_NUMBER) {
+                    return $student['studentNo'];
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        public function getPickedSchedules($studentNum) {
+            if (!empty($studentNum) && $this->hasPicked($studentNum)) {
+                $query = $this->pdo->query("SELECT classes.className, schedules.schedule, picks.studentNo
+FROM picks
+LEFT OUTER JOIN schedules ON picks.scheduleid = schedules.scheduleid
+LEFT OUTER JOIN classes ON picks.classId = classes.classId
+HAVING picks.studentNo = '".$studentNum."'");
+                if ($query->rowCount()==0) {
+                    return false;
+                } else {
+                    return $query->fetchAll(PDO::FETCH_ASSOC);
+                }
+            }
+        }
+
     }
