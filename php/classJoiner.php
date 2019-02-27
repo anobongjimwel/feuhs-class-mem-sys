@@ -122,7 +122,7 @@ HAVING schedules.classId = '".$classid."' AND currCount < maxCount AND schedules
 
         public function isScheduledPickedAlready($classid, $scheduleid, $studentnumber) {
             if (!empty($classid) && !empty($scheduleid) && !empty($studentnumber)) {
-                $query = $this->pdo->query("SELECT * FROM picks WHERE classId = '" . $classid . "' AND scheduleId = '".$scheduleid."' AND classId = '".$classid."'");
+                $query = $this->pdo->query("SELECT * FROM picks WHERE classId = '" . $classid . "' AND scheduleId = '".$scheduleid."' AND studentno = '".$studentnumber."'");
                 if ($query->rowCount()==0) {
                     return FALSE;
                 } else {

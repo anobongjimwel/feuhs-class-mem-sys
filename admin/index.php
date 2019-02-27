@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    require_once "php/domainChecker.php";
+    if (isset($_SESSION['jayrick']) && $_SESSION['zabala']) {
+        header("Location: statistics.php");
+    }
+?>
 <!doctype html>
 <html>
 <head>
@@ -42,18 +49,18 @@
 					<label class="label-style">
 						Username
 					</label>
-					<input class="form-control" />
+					<input id="username" class="form-control" />
 					<div class="container-div-style">
 					</div>
 					<div class="form-group">
 						<label>
 							Password
 						</label>
-						<input class="form-control" type="password" />
+						<input id="password" class="form-control" type="password" />
 						<div class="container-div-bloc-0-style">
 						</div>
 						<div class="text-center">
-							<a href="index.html" class="btn btn-d btn-lg">Log In</a>
+							<a id="OG" class="btn btn-d btn-lg">Log In</a>
 						</div>
 					</div>
 				</div>
@@ -65,7 +72,28 @@
 
 </div>
 <!-- Main container END -->
-    
+    <script>
+        document.getElementById("OG").onclick = function () {
+            var un = document.getElementById("username");
+            var pw = document.getElementById("password");
+            if (un.value == "admin" && pw.value == "password") {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        location.href="statistics.php";
+                    }
+                };
+                xmlhttp.open("GET","php/sessionSetter.php",false);
+                xmlhttp.send();
+            } else {
+                if (un.value=="" || pw.value=="") {
+                    alert("Please fill in the needed credentials!");
+                } else {
+                    alert("Wrong username or password");
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>

@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    require_once "php/Counter.php";
+    $ctr = new Counter();
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -36,14 +42,14 @@
 		<div class="row">
 			<div class="col">
 				<nav class="navbar row navbar-expand-md navbar-light">
-					<a class="navbar-brand" href="index.html"><span class="special-tag-for-editing-text-with-html"></span><span class="special-tag-for-editing-text-with-html"></span><img src="https://www.feu.edu.ph/manila/wp-content/photos/shslogo.png" alt="logo" width="50" height="50" /></a>
+					<a class="navbar-brand" href="index.php"><span class="special-tag-for-editing-text-with-html"></span><span class="special-tag-for-editing-text-with-html"></span><img src="https://www.feu.edu.ph/manila/wp-content/photos/shslogo.png" alt="logo" width="50" height="50" /></a>
 					<button id="nav-toggle" type="button" class="ml-auto ui-navbar-toggler navbar-toggler border-0 p-0" data-toggle="collapse" data-target=".navbar-1" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse navbar-1">
 						<ul class="site-navigation nav navbar-nav ml-auto">
 							<li class="nav-item">
-								<a href="statistics.html" class="nav-link">Statistics</a>
+								<a href="statistics.php" class="nav-link">Statistics</a>
 							</li>
 							<li class="nav-item">
 								<a href="classes.html" class="a-btn nav-link">Classes</a>
@@ -66,7 +72,7 @@
 		<div class="row">
 			<div class="order-sm-0 offset-sm-0 col-sm-4 col-md-4 col-6 col">
 				<h3 class="mg-md text-center ">
-					<strong>5603</strong>
+					<strong><?php echo $ctr->countAllStudents() ?></strong>
 				</h3>
 				<h4 class="mg-md text-center ">
 					Students
@@ -74,7 +80,7 @@
 			</div>
 			<div class="col-6 col-md-4 col-sm-4">
 				<h3 class="mg-md text-center ">
-					<strong>200</strong>
+					<strong><?php echo $ctr->countAllClasses() ?></strong>
 				</h3>
 				<h4 class="mg-md text-center ">
 					Classes
@@ -82,7 +88,7 @@
 			</div>
 			<div class="col-md-4 col-sm-4 col-6">
 				<h3 class="mg-md text-center ">
-					<strong>459</strong>
+					<strong><?php echo $ctr->countAllSchedules() ?></strong>
 				</h3>
 				<h4 class="mg-md text-center ">
 					Schedules
@@ -90,7 +96,7 @@
 			</div>
 			<div class="col-sm-4 col-md-4 col-6">
 				<h3 class="mg-md text-center ">
-					<strong>20.03%</strong>
+					<strong><?php echo $ctr->getSystemProgress() ?></strong>
 				</h3>
 				<h4 class="mg-md text-center ">
 					Progress
@@ -98,7 +104,7 @@
 			</div>
 			<div class="col-sm-4 col-md-4 col-6">
 				<h3 class="mg-md text-center ">
-					<strong>2000</strong>
+					<strong><?php echo $ctr->getCompletedStudentsCount() ?></strong>
 				</h3>
 				<h4 class="mg-md text-center ">
 					Membered
@@ -106,7 +112,7 @@
 			</div>
 			<div class="col-sm-4 col-md-4 col-6">
 				<h3 class="mg-md text-center ">
-					<strong>2000</strong>
+					<strong><?php echo $ctr->getIncompleteStudentsCount() ?></strong>
 				</h3>
 				<h4 class="mg-md text-center ">
 					Unfinished
@@ -145,6 +151,41 @@
 			<th scope="col">Members</th>
 			<th scope="col">Status</th>
 		</tr>
+        <?php
+            if ($ctr->getClassStats()!=false) {
+                foreach ($ctr->getClassStats() as $class) {
+                    switch ($class['members']) {
+                        case "0":
+                            echo "<tr class='gray'>";
+                            echo "  <td>".$class['classname']."</td>";
+                            echo "  <td>".$class['schedule']."</td>";
+                            echo "  <td>".$class['members']."</td>";
+                            echo "  <td>Empty</td>";
+                            echo "</tr>";
+                            break;
+
+                        case "40":
+                            echo "<tr class='red'>";
+                            echo "  <td>".$class['classname']."</td>";
+                            echo "  <td>".$class['schedule']."</td>";
+                            echo "  <td>".$class['members']."</td>";
+                            echo "  <td>Full</td>";
+                            echo "</tr>";
+                            break;
+
+                        default:
+                            echo "<tr class='green'>";
+                            echo "  <td>".$class['classname']."</td>";
+                            echo "  <td>".$class['schedule']."</td>";
+                            echo "  <td>".$class['members']."</td>";
+                            echo "  <td>Still Available</td>";
+                            echo "</tr>";
+                            break;
+                    }
+                }
+            }
+            ?>
+        <!-- for UI debugging purposes, don't delete
 		<tr class="gray">
 			<td>Class 1</td>
 			<td>Time Goes Here</td>
@@ -163,6 +204,7 @@
 			<td>40</td>
 			<td>Full</td>
 		</tr>
+		-->
 		
 </tbody></table>
 </div>
