@@ -42,8 +42,8 @@
                             Sweetalert2.fire({
                                 title: "Failed",
                                 type: "error",
-                                text: "Failed to add new class named \""+name.value+"\". Duplicate found!";
-                            });
+                                text: "Failed to add new class named \""+name.value+"\". Duplicate found!"
+                            })
                         } else {
                             Sweetalert2.fire({
                                 title: "Failed",
@@ -57,7 +57,50 @@
                 xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlHttp.send("n="+name.value+"&sch="+schedule.value);
             }
-        };
+        }
+
+        function addNewSchedule() {
+            const cid = document.getElementById("addsched1");
+            const sch = document.getElementById("addsched2");
+            if (cid.value=="" || sch.value=="") {
+                Sweetalert2.fire({
+                    title: "Information Incomplete!",
+                    type: "error",
+                    text: "You must fill in the required fields in order to add a new class. "
+                })
+            } else {
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText=="GOOD") {
+                            Sweetalert2.fire({
+                                title: "Added!",
+                                type: "success",
+                                text: "New schedule added."
+                            });
+                            setTimeout(function() {
+                                location.href = 'add-class.php';
+                            }, 1000);
+                        } else if (this.responseText=="DUPLICATE") {
+                            Sweetalert2.fire({
+                                title: "Failed",
+                                type: "error",
+                                text: "Failed to add new schedule to class. Duplicate found!"
+                            })
+                        } else {
+                            Sweetalert2.fire({
+                                title: "Failed",
+                                type: "error",
+                                text: "Failed to add new schedule to class."
+                            });
+                        }
+                    }
+                };
+                xmlHttp.open("post","php/actions/addNewSchedule.php", true);
+                xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlHttp.send("id="+cid.value+"&sch="+sch.value);
+            }
+        }
     </script>
     
 </head>
@@ -175,13 +218,20 @@ bloc-7 END -->
 						</label>
 					</div>
 					<div>
-						<select class="form-control">
-							<option value="0">
-								Option 1
+						<select class="form-control" id="addsched1">
+							<option value="" selected>
+								Choose one...
 							</option>
-							<option value="1">
-								Option 2
-							</option>
+                            <?php
+                                require_once "php/dbcon.php";
+                                $qryForClasses = $db->query("SELECT * FROM classes");
+                                $qriedClasses = $qryForClasses->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($qriedClasses as $class) {
+                                    echo "<option value=\"".$class['classid']."\" >";
+                                    echo $class['classname'];
+                                    echo "</option>";
+                                }
+                            ?>
 						</select>
 					</div>
 				</div>
@@ -189,7 +239,7 @@ bloc-7 END -->
 					<label>
 						Schedule
 					</label>
-					<select class="form-control">
+					<select class="form-control" id="addsched2">
                         <option value="" selected>
                             Choose one...
                         </option>
@@ -214,7 +264,7 @@ bloc-7 END -->
 					</select>
 				</div>
 				<div class="form-group">
-					<a href="#" onclick="addNewClass()" class="btn btn-wire float-lg-right float-none float-md-right btn-block">Add Schedule</a>
+					<a href="#" onclick="addNewSchedule()" class="btn btn-wire float-lg-right float-none float-md-right btn-block">Add Schedule</a>
 				</div>
 			</div>
 		</div>

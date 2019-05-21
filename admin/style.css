@@ -89,6 +89,7 @@ a:hover{text-decoration: none; cursor:pointer;}
 }
 .texture-geometry-shapes::before{
 	background: url("img/texture-geometry-shapes.png");
+	background-color: rgba(255, 255, 255, 0.925);
 	background-size: 280px 280px;
 }
 .texture-geometry-shapes-2::before{
