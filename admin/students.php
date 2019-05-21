@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    require_once "php/Counter.php";
+    $ctr = new Counter();
+?>
 <!doctype html>
 <html>
 <head>
@@ -6,18 +11,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
-    
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?5391">
-	<link rel="stylesheet" type="text/css" href="style.css?3775">
-	<link rel="stylesheet" type="text/css" href="./css/animate.min.css?1017">
-	<link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="./css/et-line.min.css">
-	
-    
-	<script src="./js/jquery-3.3.1.min.js?6877"></script>
-	<script src="./js/bootstrap.bundle.min.js?2384"></script>
-	<script src="./js/blocs.min.js?8059"></script>
-	<script src="./js/lazysizes.min.js" defer></script>
+
+    <?php include_once "php/genHeader.php" ?>
     <title>Students</title>
 
     
@@ -36,7 +31,7 @@
 		<div class="row">
 			<div class="col">
 				<nav class="navbar row navbar-expand-md navbar-light">
-					<a class="navbar-brand" href="index.php"><span class="special-tag-for-editing-text-with-html"></span><span class="special-tag-for-editing-text-with-html"></span><img src="https://www.feu.edu.ph/manila/wp-content/photos/shslogo.png" alt="logo" width="50" height="50" /></a>
+					<a class="navbar-brand" href="index.php"><span class="special-tag-for-editing-text-with-html"></span><span class="special-tag-for-editing-text-with-html"></span><img src="https://www.feu.edu.ph/elements/feulogo.png" alt="logo" width="50" height="50" /></a>
 					<button id="nav-toggle" type="button" class="ml-auto ui-navbar-toggler navbar-toggler border-0 p-0" data-toggle="collapse" data-target=".navbar-1" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
@@ -46,10 +41,10 @@
 								<a href="statistics.php" class="nav-link">Statistics</a>
 							</li>
 							<li class="nav-item">
-								<a href="classes.html" class="a-btn nav-link">Classes</a>
+								<a href="classes.php" class="a-btn nav-link">Classes</a>
 							</li>
 							<li class="nav-item">
-								<a href="students.html" class="a-btn nav-link">Students</a>
+								<a href="students.php" class="a-btn nav-link">Students</a>
 							</li>
 						</ul>
 					</div>
@@ -66,33 +61,16 @@
 		<div class="row">
 			<div class="col-md-8 col-lg-10">
 				<div class="form-group">
-					<input class="form-control field-style" />
+					<input class="form-control field-style" id="q"/>
 				</div>
 			</div>
 			<div class="col-6 col-md-2 col-lg-2">
-				<a class="btn btn-wire btn-sq float-lg-none btn-block"><span class="et-icon-magnifying-glass icon-spacer"></span>Search</a>
+				<a class="btn btn-wire btn-sq float-lg-none btn-block" href="javascript:search()"><span class="et-icon-magnifying-glass icon-spacer"></span>Search</a>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- bloc-4 END -->
-
-<!-- bloc-5 -->
-<div class="bloc l-bloc" id="bloc-5">
-	<div class="container bloc-sm">
-		<div class="row">
-			<div class="col">
-				<div class="alert alert-success">
-					<a href="#" class="btn btn-d btn-lg btn-style-none float-right" data-dismiss="alert" aria-label="Close"><span class="fa fa-close close"></span></a>
-					<p class="mb-0">
-						This is a sample alert
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- bloc-5 END -->
 
 <!-- bloc-11 -->
 <div class="bloc l-bloc" id="bloc-11">
@@ -101,7 +79,7 @@
 			<div class="col-lg-2 col-md-2">
 				<div>
 					<h3 class="mg-clear text-center text-md-left">
-						<strong>1029</strong>
+						<strong><?php echo $ctr->countAllStudents()?></strong>
 					</h3>
 					<p class="text-center text-md-left">
 						Students
@@ -109,7 +87,7 @@
 				</div>
 				<div>
 					<h3 class="scroll-fx-right-out mg-clear text-center text-md-left">
-						<strong>2019</strong>
+						<strong><?php echo $ctr->getIncompleteStudentsCount()?></strong>
 					</h3>
 					<p class="float-lg-none mg-clear text-center text-md-left">
 						Unfinished<br>
@@ -118,7 +96,7 @@
 			</div>
 			<div class="col-lg-10 col-md-10">
 				<div class=" html-widget-style ">
-					<style>
+<style>
 	td.green {
 		color: green
 	}
@@ -130,9 +108,7 @@
 	td.gray {
 		color: gray
 	}
-</style><b>
-
-</b><div class="table-responsive">
+</style><div class="table-responsive">
 
 			<table class="table table-bordered table-hover table-sm">
 	<tbody>
@@ -143,6 +119,41 @@
 			<th>Grade</th>
 			<th>Strand</th><th>Status</th>
 		</tr>
+        <?php
+            if (isset($_GET['q']) && !empty($_GET['q']) && $_GET['q']!="") {
+                $students = $ctr->getStudentStatsLike($_GET['q']);
+            } else {
+                $students = $ctr->getStudentStats();
+            }
+
+            if ($students != false) {
+                foreach ($students as $student) {
+                    echo "<tr>";
+                    echo "<td><img src='" . $ctr->getStudentProfilePic($student['studentno']) . "' data-src='' style='width: 25px; height: 25px' class='lazyload' /></td>";
+                    echo "<td>" . $student['studentno'] . "</td>";
+                    echo "<td>" . $student['fullName'] . "</td>";
+                    echo "<td>" . $student['grade'] . "</td>";
+                    echo "<td>" . $student['strand'] . "</td>";
+
+                    switch ($student['classes']) {
+                        case 2:
+                            echo "<td class='green'>Complete</td>";
+                            break;
+
+                        case 1:
+                            echo "<td class='red'>Incomplete</td>";
+                            break;
+
+                        default:
+                            echo "<td class='red'>Unsubmitted</td>";
+                            break;
+                    }
+                    echo "</tr>";
+                }
+            }
+
+        ?>
+        <!-- UI Debugging Purposes only
 		<tr>
 			<td><img src="img/lazyload-ph.png" data-src="" style="width: 25px; height: 25px" class="lazyload"></td>
 			<td>Student Number</td>
@@ -167,6 +178,7 @@
 			<td>HUMSS</td>
 			<td class="green">Complete</td>
 		</tr>
+		-->
 	</tbody></table>
 </div>
 					
@@ -184,7 +196,24 @@
 
 </div>
 <!-- Main container END -->
-    
+
+<script>
+
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    function search() {
+        var q = document.getElementById("q");
+        if (q.value != getUrlVars()['q']) {
+            location.href="students.php?q="+q.value;
+        }
+    }
+</script>
 <script src="./js/scrollFX.js?2168"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once "php/domainChecker.php";
-    if (isset($_SESSION['jayrick']) && $_SESSION['zabala']) {
+    if (isset($_SESSION['jayrick']) && $_SESSION['jayrick']) {
         header("Location: statistics.php");
     }
 ?>
@@ -13,18 +13,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
-    
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?5053">
-	<link rel="stylesheet" type="text/css" href="style.css?4971">
-	<link rel="stylesheet" type="text/css" href="./css/animate.min.css?470">
-	<link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="./css/et-line.min.css">
-	
-    
-	<script src="./js/jquery-3.3.1.min.js?2994"></script>
-	<script src="./js/bootstrap.bundle.min.js?349"></script>
-	<script src="./js/blocs.min.js?9694"></script>
-	<script src="./js/lazysizes.min.js" defer></script>
+
+    <?php include_once "php/genHeader.php" ?>
     <title>Home</title>
 
     
@@ -42,7 +32,7 @@
 	<div class="container">
 		<div class="row l-bloc">
 			<div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 offset-lg-4 col-lg-4">
-				<img src="img/lazyload-ph.png" data-src="https://www.feu.edu.ph/manila/wp-content/photos/shslogo.png" class="img-fluid mx-auto d-block img-style lazyload" />
+				<img src="img/lazyload-ph.png" data-src="https://www.feu.edu.ph/elements/feulogo.png" class="img-fluid mx-auto d-block img-style lazyload" />
 				<div class="container-div-0-style">
 				</div>
 				<div class="form-group">

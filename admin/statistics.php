@@ -12,18 +12,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
-    
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?705">
-	<link rel="stylesheet" type="text/css" href="style.css?8063">
-	<link rel="stylesheet" type="text/css" href="./css/animate.min.css?5206">
-	<link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="./css/et-line.min.css">
-	
-    
-	<script src="./js/jquery-3.3.1.min.js?1535"></script>
-	<script src="./js/bootstrap.bundle.min.js?317"></script>
-	<script src="./js/blocs.min.js?4525"></script>
-	<script src="./js/lazysizes.min.js" defer></script>
+
+    <?php include_once "php/genHeader.php" ?>
     <title>Statistics</title>
 
     
@@ -42,7 +32,7 @@
 		<div class="row">
 			<div class="col">
 				<nav class="navbar row navbar-expand-md navbar-light">
-					<a class="navbar-brand" href="index.php"><span class="special-tag-for-editing-text-with-html"></span><span class="special-tag-for-editing-text-with-html"></span><img src="https://www.feu.edu.ph/manila/wp-content/photos/shslogo.png" alt="logo" width="50" height="50" /></a>
+					<a class="navbar-brand" href="index.php"><span class="special-tag-for-editing-text-with-html"></span><span class="special-tag-for-editing-text-with-html"></span><img src="https://www.feu.edu.ph/elements/feulogo.png" alt="logo" width="50" height="50" /></a>
 					<button id="nav-toggle" type="button" class="ml-auto ui-navbar-toggler navbar-toggler border-0 p-0" data-toggle="collapse" data-target=".navbar-1" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
@@ -52,10 +42,10 @@
 								<a href="statistics.php" class="nav-link">Statistics</a>
 							</li>
 							<li class="nav-item">
-								<a href="classes.html" class="a-btn nav-link">Classes</a>
+								<a href="classes.php" class="a-btn nav-link">Classes</a>
 							</li>
 							<li class="nav-item">
-								<a href="students.html" class="a-btn nav-link">Students</a>
+								<a href="students.php" class="a-btn nav-link">Students</a>
 							</li>
 						</ul>
 					</div>

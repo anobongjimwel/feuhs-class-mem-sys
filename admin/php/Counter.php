@@ -66,4 +66,30 @@ class Counter
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
     }
+
+    public function getStudentStats() {
+        $query = $this->pdo->query("SELECT s.studentno, s.fullName, s.grade, s.strand, count(p.studentno) as classes FROM students s LEFT JOIN picks p ON s.studentNo = p.studentno GROUP BY p.studentno ORDER BY classes desc");
+        if ($query->rowCount()==0) {
+            return FALSE;
+        } else {
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function getStudentStatsLike($query) {
+        $query = $this->pdo->query("SELECT s.studentno, s.fullName, s.grade, s.strand, count(p.studentno) as classes FROM students s LEFT JOIN picks p ON s.studentNo = p.studentno WHERE s.studentNo LIKE '%$query%' OR s.fullName LIKE '%$query%' OR s.strand LIKE '%$query%' OR s.grade LIKE '%$query%' GROUP BY p.studentno ORDER BY classes desc");
+        if ($query->rowCount()==0) {
+            return FALSE;
+        } else {
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function getStudentProfilePic($studentno) {
+        if (file_exists("../studentimg/$studentno.jpg")) {
+            return "http://class.feuhs.edu/studentimg/$studentno.jpg";
+        } else {
+            return "http://class.feuhs.edu/img/placeholder-image.png";
+        }
+    }
 }
